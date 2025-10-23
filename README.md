@@ -11,7 +11,7 @@
 - Используется самописная библиотека для сетей.
 
 ## Демонстрация
-![demo](Data\images\demo\demo.gif) 
+![demo](Data/images/demo/demo.gif) 
 
 ## Используемый эмулятор
 
