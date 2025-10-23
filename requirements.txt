@@ -1,0 +1,6 @@
+mss
+PyGetWindow
+pywin32
+albumentations
+opencv-python
+mouse

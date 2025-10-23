@@ -1,0 +1,4 @@
+/.venv/
+/neuralnet.egg-info/
+/.idea/
+/__pycache__/
