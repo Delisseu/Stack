@@ -578,10 +578,8 @@ print(f"{corrected_1=}", "\n")
 ideal_time = 0.788
 current_time = 0.9
 classic_2 = ideal_time + (current_time - ideal_time) / 2
-corrected_2 = ideal_time + (current_time - ideal_time - 0.013) / 2
 print(f"{classic_2=}")
-print(f"{corrected_2=}", "\n")
-print(f"{classic_2 - classic_1=}, {corrected_2 - corrected_1=}")
+print(f"{classic_2 - classic_1=}, {classic_2- corrected_1=}")
 ```
 
 Таким образом создаётся **«подушка безопасности»** в 13 мс для компенсации погрешностей и input lag.
