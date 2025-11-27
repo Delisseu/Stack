@@ -166,11 +166,11 @@ for _ in range(2):
 
 **Архитектура:**
 
-    {"layer": Dense, "input_dim": 300, 'neurons': 128, "lr": 0.0001},
+    {"layer": Dense, "input_dim": 300, 'neurons': 128, "learn_params": {"lr": 0.0001}},
     {"layer": Relu},
-    {"layer": Dense, 'neurons': 64, "lr": 0.0001},
+    {"layer": Dense, 'neurons': 64, "learn_params": {"lr": 0.0001}},
     {"layer": Relu},
-    {"layer": Dense, 'neurons': 1, "lr": 0.0001, "init_func": xavier_uniform}
+    {"layer": Dense, 'neurons': 1, "learn_params": {"lr": 0.0001}, "init_dict": {"init_cls": XavierUniform}}
 
 
 **Аргументация:**
@@ -187,31 +187,31 @@ for _ in range(2):
 **Архитектура:**
 
 
-    {"input_dim": (100, 100, 1), "out_channels": 8, "layer": Conv2D, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001},
+    {"input_dim": (100, 100, 1), "out_channels": 8, "layer": Conv2D, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}},
     {"layer": Relu},
     {"layer": Pooling, "pooling_shape": (2, 2), "pooling_func": "max"},
 
-    {"out_channels": 16, "layer": Conv2D, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001},
+    {"out_channels": 16, "layer": Conv2D, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}},
     {"layer": Relu},
 
-    {"out_channels": 1, "layer": Conv2D, "lr": 0.0005, "kernel_size": (1, 1), "bias": False},
-    {"layer": BatchNorm, "lr": 0.0005},
+    {"out_channels": 1, "layer": Conv2D, "learn_params": {"lr": 0.0005}, "kernel_size": (1, 1), "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0005}},
     {"layer": Relu},
 
-    {"layer": Dense, 'neurons': 512, "lr": 0.0005, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0005},
+    {"layer": Dense, 'neurons': 512, "learn_params": {"lr": 0.0005}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0005}},
     {"layer": Relu},
 
     {"layer": Dense, 'neurons': 64, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0005},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0005}},
     {"layer": Relu},
 
-    {"layer": Dense, 'neurons': 8, "lr": 0.0005},
+    {"layer": Dense, 'neurons': 8, "learn_params": {"lr": 0.0005}},
     {"layer": Relu},
 
-    {"layer": Dense, 'neurons': 1, "lr": 0.0005, "init_func": xavier_uniform}
+    {"layer": Dense, 'neurons': 1, "learn_params": {"lr": 0.0005}, "init_dict": {"init_cls": XavierUniform}}
 
 
 **Аргументация:**
@@ -238,28 +238,28 @@ for _ in range(2):
 
 **Архитектура:**
 
-    {"input_dim": (75, 90, 1), "out_channels": 4, "layer": Conv2D, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001},
+    {"input_dim": (75, 90, 1), "out_channels": 4, "layer": Conv2D, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}},
     {"layer": Relu},
     {"layer": Pooling, "pooling_shape": (2, 2), "pooling_func": "max"},
 
-    {"out_channels": 8, "layer": Conv2D, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001},
+    {"out_channels": 8, "layer": Conv2D, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}},
     {"layer": Relu},
     {"layer": Pooling, "pooling_shape": (2, 2), "pooling_func": "max"},
 
-    {"layer": Dense, 'neurons': 512, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001},
+    {"layer": Dense, 'neurons': 512, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}},
     {"layer": Relu},
 
-    {"layer": Dense, 'neurons': 64, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001},
+    {"layer": Dense, 'neurons': 64, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}},
     {"layer": Relu},
 
-    {"layer": Dense, 'neurons': 8, "lr": 0.0001},
+    {"layer": Dense, 'neurons': 8, "learn_params": {"lr": 0.0001}},
     {"layer": Relu},
 
-    {"layer": Dense, 'neurons': 1, "lr": 0.0001, "init_func": xavier_uniform}
+    {"layer": Dense, 'neurons': 1, "learn_params": {"lr": 0.0001}, "init_dict": {"init_cls": XavierUniform}}
 
 
 **Комментарий:**
@@ -272,39 +272,39 @@ for _ in range(2):
 
 **Архитектура backbone:**
 
-    {"input_dim": (100, 100, 1), "out_channels": 8, "layer": Conv2D, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001},
+    {"input_dim": (100, 100, 1), "out_channels": 8, "layer": Conv2D, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}},
     {"layer": Relu}, 
     {"layer": Pooling, "pooling_shape": (2, 2), "pooling_func": "max"},
 
-    {"out_channels": 16, "layer": Conv2D, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001},
+    {"out_channels": 16, "layer": Conv2D, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}},
     {"layer": Relu},
 
-    {"out_channels": 1, "layer": Conv2D, "lr": 0.0005, "kernel_size": (1, 1), "bias": False},
-    {"layer": BatchNorm, "lr": 0.0005},
+    {"out_channels": 1, "layer": Conv2D, "learn_params": {"lr": 0.0005}, "kernel_size": (1, 1), "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0005}},
     {"layer": Relu},
 
-    {"layer": Dense, 'neurons': 512, "lr": 0.0005, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0005},
+    {"layer": Dense, 'neurons': 512, "learn_params": {"lr": 0.0005}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0005}},
     {"layer": Relu},
 
     {"layer": MultiHead, "heads": [cls_head, reg_head]}
 
 **Классификационная голова (`cls_head`):**
 
-    {"layer": Dense, 'neurons': 64, "lr": 0.0005, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0005}, {"layer": Relu},
-    {"layer": Dense, 'neurons': 8, "lr": 0.0005}, {"layer": Relu},
-    {"layer": Dense, 'neurons': 1, "lr": 0.0005, "init_func": xavier_uniform}
+    {"layer": Dense, 'neurons': 64, "learn_params": {"lr": 0.0005}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0005}}, {"layer": Relu},
+    {"layer": Dense, 'neurons': 8, "learn_params": {"lr": 0.0005}}, {"layer": Relu},
+    {"layer": Dense, 'neurons': 1, "learn_params": {"lr": 0.0005}, "init_dict": {"init_cls": XavierUniform}}
 
 
 **Регрессионная голова (`reg_head`):**
 
-    {"layer": Dense, 'neurons': 64, "lr": 0.0005, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0005}, {"layer": Relu},
-    {"layer": Dense, 'neurons': 8, "lr": 0.0005}, {"layer": Relu},
-    {"layer": Dense, 'neurons': 2, "lr": 0.0005}
+    {"layer": Dense, 'neurons': 64, "learn_params": {"lr": 0.0005}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0005}}, {"layer": Relu},
+    {"layer": Dense, 'neurons': 8, "learn_params": {"lr": 0.0005}}, {"layer": Relu},
+    {"layer": Dense, 'neurons': 2, "learn_params": {"lr": 0.0005}, "init_dict": {"init_cls": XavierUniform}}
 
 
 **Аргументация:**
@@ -320,34 +320,34 @@ for _ in range(2):
 
 **Архитектура:**
 
-    {"input_dim": (100, 100, 1), "out_channels": 8, "layer": Conv2D, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001},
+    {"input_dim": (100, 100, 1), "out_channels": 8, "layer": Conv2D, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}},
     {"layer": Relu},
     {"layer": Pooling, "pooling_shape": (2, 2), "pooling_func": "max"},
 
     {"out_channels": 16, "layer": Conv2D, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}},
     {"layer": Relu},
 
-    {"layer": ConvAttention, "lr": 0.0005, "mode": "Channel", "agg_mode": "GAP+GMP"},
-    {"out_channels": 1, "layer": Conv2D, "lr": 0.0005, "kernel_size": (1, 1), "bias": False},
-    {"layer": BatchNorm, "lr": 0.0005},
+    {"layer": ConvAttention, "learn_params": {"lr": 0.0005}, "mode": "Channel", "agg_mode": "GAP+GMP"},
+    {"out_channels": 1, "layer": Conv2D, "learn_params": {"lr": 0.0005}, "kernel_size": (1, 1), "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0005}},
     {"layer": Relu},
 
-    {"layer": ConvAttention, "lr": 0.0005, "mode": "Spatial", "agg_mode": "GAP"},
+    {"layer": ConvAttention, "learn_params": {"lr": 0.0005}, "mode": "Spatial", "agg_mode": "GAP"},
 
-    {"layer": Dense, 'neurons': 512, "lr": 0.0005, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0005},
+    {"layer": Dense, 'neurons': 512, "learn_params": {"lr": 0.0005}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0005}},
     {"layer": Relu},
 
-    {"layer": Dense, 'neurons': 64, "lr": 0.0005, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0005},
+    {"layer": Dense, 'neurons': 64, "learn_params": {"lr": 0.0005}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0005}},
     {"layer": Relu},
 
-    {"layer": Dense, 'neurons': 8, "lr": 0.0005},
+    {"layer": Dense, 'neurons': 8, "learn_params": {"lr": 0.0005}},
     {"layer": Relu},
 
-    {"layer": Dense, 'neurons': 1, "lr": 0.0005, "init_func": xavier_uniform}
+    {"layer": Dense, 'neurons': 1, "learn_params": {"lr": 0.0005}, "init_dict": {"init_cls": XavierUniform}}
 
 **Аргументация:**
 
@@ -634,7 +634,7 @@ python online.py
 
 1. Рекомендуется запустить скрипт `del_duplicates.py` для удаления **возможных дубликатов**.
 2. После этого запускается `nets_train.py` с флагом `final`,  
-   чтобы обучился **final_agent**.
+   чтобы обучился **final_agent** `python nets_train.py final` .
 3. Модель сохраняется в ту же папку, что и предыдущие сети,  
    а также обновляется файл `nets_thresholds.json` с новыми порогами.
 

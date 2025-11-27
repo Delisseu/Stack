@@ -3,41 +3,44 @@ import json
 import pickle
 import sys
 
-from neuralnet.Layers_Features import BatchNorm, Pooling, xavier_uniform
+from neuralnet.Layers_Features import BatchNorm, Pooling, XavierUniform
 from neuralnet.Optimizers import Adam, InverseSqrtSchedulerMod1
 from neuralnet.core_gpu import *
 
 var_1 = [
-    {"input_dim": 300, 'neurons': 128, "lr": 0.0001}, {"layer": Relu},
-    {'neurons': 64, "lr": 0.0001}, {"layer": Relu},
-    {'neurons': 1, "lr": 0.0001, "init_func": xavier_uniform}]
+    {"input_dim": 300, 'neurons': 128, "learn_params": {"lr": 0.0001}}, {"layer": Relu},
+    {'neurons': 64, "learn_params": {"lr": 0.0001}}, {"layer": Relu},
+    {'neurons': 1, "learn_params": {"lr": 0.0001}, "init_dict": {"init_cls": XavierUniform}}]
 
 var_2 = [
-    {"input_dim": (75, 90, 1), "out_channels": 4, "layer": Conv2D, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001}, {"layer": Relu}, {"layer": Pooling},
+    {"input_dim": (75, 90, 1), "out_channels": 4, "layer": Conv2D, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}}, {"layer": Relu}, {"layer": Pooling},
 
-    {"out_channels": 8, "layer": Conv2D, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001}, {"layer": Relu}, {"layer": Pooling},
+    {"out_channels": 8, "layer": Conv2D, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}}, {"layer": Relu}, {"layer": Pooling},
 
-    {'neurons': 512, "lr": 0.0001, "bias": False}, {"layer": BatchNorm, "lr": 0.0001}, {"layer": Relu},
-    {'neurons': 64, "lr": 0.0001, "bias": False}, {"layer": BatchNorm, "lr": 0.0001}, {"layer": Relu},
-    {'neurons': 8, "lr": 0.0001}, {"layer": Relu},
-    {'neurons': 1, "lr": 0.0001, "init_func": xavier_uniform}]
+    {'neurons': 512, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}}, {"layer": Relu},
+    {'neurons': 64, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}}, {"layer": Relu},
+    {'neurons': 8, "learn_params": {"lr": 0.0001}}, {"layer": Relu},
+    {'neurons': 1, "learn_params": {"lr": 0.0001}, "init_dict": {"init_cls": XavierUniform}}]
 
 var_3 = [
-    {"input_dim": (100, 100, 1), "out_channels": 8, "layer": Conv2D, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001}, {"layer": Relu}, {"layer": Pooling},
+    {"input_dim": (100, 100, 1), "out_channels": 8, "layer": Conv2D, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}}, {"layer": Relu}, {"layer": Pooling},
 
-    {"out_channels": 16, "layer": Conv2D, "lr": 0.0001, "bias": False},
-    {"layer": BatchNorm, "lr": 0.0001}, {"layer": Relu},
+    {"out_channels": 16, "layer": Conv2D, "learn_params": {"lr": 0.0001}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0001}}, {"layer": Relu},
 
-    {"out_channels": 1, "layer": Conv2D, "lr": 0.0005, "kernel_size": (1, 1), "bias": False},
-    {"layer": BatchNorm, "lr": 0.0005}, {"layer": Relu},
+    {"out_channels": 1, "layer": Conv2D, "learn_params": {"lr": 0.0005}, "kernel_size": (1, 1), "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0005}}, {"layer": Relu},
 
-    {'neurons': 512, "lr": 0.0005, "bias": False}, {"layer": BatchNorm, "lr": 0.0005}, {"layer": Relu},
-    {'neurons': 64, "bias": False}, {"layer": BatchNorm, "lr": 0.0005}, {"layer": Relu},
-    {'neurons': 8, "lr": 0.0005}, {"layer": Relu},
-    {'neurons': 1, "lr": 0.0005, "init_func": xavier_uniform}]  # 0.000643
+    {'neurons': 512, "learn_params": {"lr": 0.0005}, "bias": False},
+    {"layer": BatchNorm, "learn_params": {"lr": 0.0005}}, {"layer": Relu},
+    {'neurons': 64, "bias": False}, {"layer": BatchNorm, "learn_params": {"lr": 0.0005}}, {"layer": Relu},
+    {'neurons': 8, "learn_params": {"lr": 0.0005}}, {"layer": Relu},
+    {'neurons': 1, "learn_params": {"lr": 0.0001}, "init_dict": {"init_cls": XavierUniform}}]  # 0.000643
 
 
 def get_metrics(y_pred, y_true):
@@ -62,9 +65,11 @@ def get_metrics(y_pred, y_true):
     }
 
 
-def train_and_save(model, loader, name, X_test=None, y_test=None, epochs=50, early_stop=10, folder="Models",
+def train_and_save(model, loader, name, test_loader=None, epochs=50, early_stop=0, folder="Models",
                    min_delta=0.001):
-    var = model.train(loader, epochs=epochs, early_stop=early_stop, x_test=X_test, y_test=y_test, min_delta=min_delta)
+    var = model.train(loader, epochs=epochs, early_stop=early_stop, test_loader=test_loader, min_delta=min_delta)
+    if var is None:
+        var = model.export()
     with open(f"{folder}/{name}.pkl", "wb") as f:
         pickle.dump(var, f)
 
@@ -102,7 +107,7 @@ if __name__ == "__main__":
         y_base = np.load(rf"Data\y_nodup.npy")
         final_agent = NeuralNetwork(var_3, BCELogits(), Adam(scheduler=InverseSqrtSchedulerMod1(warmup_steps=3500)))
         train_and_save(final_agent, AsyncCupyDataLoader(X_base, y_base, batch_size=128), "final_agent",
-                       epochs=30, X_test=X_base, y_test=y_base)
+                       epochs=20)
         append_sigmoid("final_agent")
         thr_final_agent, final_agent_metrics = best_threshold_Logits(final_agent, X_base, y_base)
 
@@ -132,20 +137,20 @@ if __name__ == "__main__":
         game_over_net = NeuralNetwork(var_1, BCELogits(), Adam())
         success_net = NeuralNetwork(var_2, BCELogits(), Adam())
 
-        train_and_save(online_agent, AsyncCupyDataLoader(X_base, y_base, batch_size=128), "online_agent",
-                       epochs=1, X_test=X_base, y_test=y_base)
+        train_and_save(online_agent, AsyncCupyDataLoader(X_base, y_base, batch_size=128), "online_agent", epochs=1)
 
         train_and_save(game_over_net, AsyncCupyDataLoader(X_game_over, y_game_over, batch_size=64), "game_over_net",
-                       epochs=15, X_test=X_game_over, y_test=y_game_over)
+                       epochs=15)
 
         train_and_save(success_net, AsyncCupyDataLoader(X_success, y_success, batch_size=128), "success_net",
-                       epochs=5, X_test=X_success, y_test=y_success)
+                       epochs=5)
 
         append_sigmoid("online_agent")
         append_sigmoid("game_over_net")
         append_sigmoid("success_net")
 
-        thr_online_agent, online_agent_metrics = best_threshold_Logits(online_agent, X_base, y_base)
+        thr_online_agent, online_agent_metrics = best_threshold_Logits(online_agent, X_base,
+                                                                       (y_base > 0.5).astype(np.int32))
         thr_game_over_net, game_over_net_metrics = best_threshold_Logits(game_over_net, X_game_over, y_game_over)
         thr_success_net, success_net_metrics = best_threshold_Logits(success_net, X_success, y_success)
 
